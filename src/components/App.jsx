@@ -22,13 +22,21 @@ class App extends React.Component {
     });
   }
 
+  handleInputChange(e) {
+    this.props.searchYouTube({query: e.target.value, key: YOUTUBE_API_KEY, max: 5}, (videos) => {
+      this.setState({
+        currentVideo: videos[0],
+        videos
+      });
+    })
+  }
 
   render() {
     return (
       <div>
         <nav className="navbar">
           <div className="col-md-6 offset-md-3">
-              <Search />
+              <Search debounce={this.debounce} handleInputChange={this.handleInputChange.bind(this)}/>
           </div>
         </nav>
         <div className="row">
