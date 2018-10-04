@@ -2,8 +2,18 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentVideo: exampleVideoData[0]
+      currentVideo: exampleVideoData[0],
+      videos: exampleVideoData
     };
+  }
+
+  componentDidMount() {
+    this.props.searchYouTube({query: '', key: YOUTUBE_API_KEY, max: 5}, (videos) => {
+      this.setState({
+        currentVideo: videos[0],
+        videos
+      })
+    })
   }
 
   handleOnClick(video) {
@@ -28,7 +38,7 @@ class App extends React.Component {
             </div>
           </div>
           <div className="col-md-5">
-            <VideoList handleOnClick={this.handleOnClick.bind(this)} videos={exampleVideoData} />
+            <VideoList handleOnClick={this.handleOnClick.bind(this)} videos={this.state.videos} />
           </div>
         </div>
       </div>
